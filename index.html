@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizezz Saytı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #3b065e;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            background: #240347;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            margin: auto;
+        }
+        .question {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            background: #6b1a85;
+            color: white;
+        }
+        .btn:hover {
+            background: #8e2bb8;
+        }
+        .correct {
+            background: green !important;
+            color: white;
+        }
+        .wrong {
+            background: red !important;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quizezz</h1>
+        <div id="quiz-container"></div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "Azərbaycanın paytaxtı hansıdır?",
+                answers: ["Bakı", "Gəncə", "Şəki", "Naxçıvan"],
+                correct: 0
+            },
+            {
+                question: "Dünyanın ən böyük okeanı hansıdır?",
+                answers: ["Atlantik Okeanı", "Hind Okeanı", "Sakit Okean", "Şimal Buzlu Okeanı"],
+                correct: 2
+            },
+            {
+                question: "İnsan bədənində neçə sümük var?",
+                answers: ["206", "180", "250", "300"],
+                correct: 0
+            },
+            {
+                question: "Ən uzun çay hansıdır?",
+                answers: ["Amazon", "Nil", "Mississippi", "Dunay"],
+                correct: 1
+            }
+        ];
+
+        function loadQuiz() {
+            const quizContainer = document.getElementById("quiz-container");
+            quizContainer.innerHTML = "";
+            
+            questions.forEach((q, index) => {
+                const questionElem = document.createElement("div");
+                questionElem.classList.add("question");
+                questionElem.innerText = q.question;
+                quizContainer.appendChild(questionElem);
+                
+                const buttonContainer = document.createElement("div");
+                buttonContainer.classList.add("button-container");
+                quizContainer.appendChild(buttonContainer);
+                
+                q.answers.forEach((answer, i) => {
+                    const button = document.createElement("button");
+                    button.classList.add("btn");
+                    button.innerText = answer;
+                    button.onclick = () => checkAnswer(buttonContainer, button, i === q.correct);
+                    buttonContainer.appendChild(button);
+                });
+            });
+        }
+
+        function checkAnswer(buttonContainer, button, isCorrect) {
+            let buttons = buttonContainer.querySelectorAll(".btn");
+            buttons.forEach(btn => btn.disabled = true);
+            if (isCorrect) {
+                button.classList.add("correct");
+            } else {
+                button.classList.add("wrong");
+            }
+        }
+        
+        loadQuiz();
+    </script>
+</body>
+</html>
