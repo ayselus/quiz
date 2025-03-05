@@ -49,12 +49,19 @@
             background: red !important;
             color: white;
         }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Quizezz</h1>
         <div id="quiz-container"></div>
+        <div id="result"></div>
     </div>
     <script>
         const questions = [
@@ -79,7 +86,9 @@
                 correct: 1
             }
         ];
-
+        
+        let correctAnswers = 0;
+        
         function loadQuiz() {
             const quizContainer = document.getElementById("quiz-container");
             quizContainer.innerHTML = "";
@@ -109,9 +118,21 @@
             buttons.forEach(btn => btn.disabled = true);
             if (isCorrect) {
                 button.classList.add("correct");
+                correctAnswers++;
             } else {
                 button.classList.add("wrong");
             }
+            
+            if (document.querySelectorAll(".btn:not([disabled])").length === 0) {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const resultDiv = document.getElementById("result");
+            const percentage = Math.round((correctAnswers / questions.length) * 100);
+            resultDiv.innerHTML = `Dəqiqlik: <span style="color: ${percentage >= 50 ? 'green' : 'red'}">${percentage}%</span>`;
+            resultDiv.style.display = "block";
         }
         
         loadQuiz();
